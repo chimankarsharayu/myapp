@@ -1,0 +1,134 @@
+{% extends 'base.html'%}
+{% block content%}
+
+<!DOCTYPE html>
+<html>
+    <body>
+    <ul class="nav nav-pills nav-fill tab">
+        <li class="nav-item">
+          <a class="nav-link tablinks" onclick="openTab(event, 'tab1')">Tab1</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link tablinks" onclick="openTab(event, 'tab2')">Tab2</a>
+        </li>
+        
+    </ul>
+
+    
+    <div class="row py-5 justify-content-center tabcontent" id="tab1">
+        <div class="col-md-8">
+            <!-- <span class="input-group-text" id="addon-wrapping">@</span> -->
+            <input type="text" class="form-control" placeholder="Search" aria-label="Search" id="search" onkeypress="insertItemIntoListBox()">
+            
+            <ul class="list-group py-2" id="results">
+                
+
+            </ul>
+
+        </div>
+
+        <form>
+          
+         
+
+          <select class="list-group py-2" id="access" size="10">
+              
+          </select>
+
+          
+      </form>
+      
+    </div>
+
+    <div class="row py-5 justify-content-center tabcontent" id="tab2">
+        <div class="col-md-8">
+            <!-- <span class="input-group-text" id="addon-wrapping">@</span> -->
+            <!-- <input type="text" class="form-control" placeholder="Search" aria-label="Search" id="search"> -->
+            <!-- <ul class="list-group py-2" id="results">
+                
+
+            </ul> -->
+           
+
+            <table id="add-row" class="display table table-striped table-hover">
+              <thead> 
+  
+  <th>Id</th>
+  <th>name</th>
+  <th>value</th>
+  <th>Photo</th>
+  
+              </tr>  
+              </thead>  
+              <tbody> 
+  {% for x in allobjects2 %}
+      <tr>
+  
+  <th>{{ x.id }}</th>
+  <th>{{ x.name }}</th>
+  <th>{{ x.value }}</th>
+  <th><img src="{{ x.image.url }}" alt="image" width="80" height="80" style="margin: 10px;"></th>
+          </td>
+                      {% endfor %}
+  
+                  </tr>
+              </tbody>
+          </table>
+
+        </div>
+    </div>
+    </body>
+</html>
+
+{% endblock content%}
+
+{%block scripts%}
+<script>
+    function openTab(evt, tab) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+          tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(tab).style.display = "block";
+        evt.currentTarget.className += " active";
+      }
+</script>
+
+<script type="text/javascript">
+  const data = [];
+  function insertItemIntoListBox() {
+
+   
+    if (event.keyCode == 13) {
+
+      var x = document.getElementById("access");
+      var item = document.getElementById("search").value;
+      var option = document.createElement("option");
+      option.text = item;
+      x.add(option);
+      console.log(item)
+      data.push(item)
+    }else{
+      return false;
+    }
+
+    console.log(data)
+    
+    $.ajax({
+      type: 'POST',
+      url: '/',
+      data: {'data[]': data},
+  });
+    
+    
+      
+  }
+</script>
+
+{%endblock scripts%}
+

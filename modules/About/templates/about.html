@@ -1,0 +1,12 @@
+{% extends 'base.html'%}
+{% block content%}
+
+<!DOCTYPE html>
+<html>
+    <h1>About Page</h1>
+    {% for x in allobjects%}
+    <h1>{{x.name}}</h1>
+ {%endfor %}
+</html>
+
+{% endblock %}
